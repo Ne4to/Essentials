@@ -260,6 +260,12 @@ namespace Data
 
 			}			
 		}
+
+		public IEnumerable<T> BreadthFirstTraversal()
+		{
+			throw new NotImplementedException();
+			yield break;
+		}
 	}
 
 	public class BinaryTreeNode<T>
