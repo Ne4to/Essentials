@@ -26,7 +26,7 @@ namespace TestApp
 			tree.Add(125);
 			tree.Add(175);
 
-			foreach (var value in tree.TraversalInOrder())
+			foreach (var value in tree.TraversalPostOrder())
 			{
 				Console.Write("{0} ", value);
 			}
