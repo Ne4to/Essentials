@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>JavaScript Chapter 9 - Looping statements</title>
+	<script type="text/javascript">
+		function addLog(message) {
+			document.write(message + "<br />");
+		}
+
+		var playlist = [];
+		playlist[0] = "One For The Team";
+		playlist[1] = "The Joy Formidable";
+		playlist[2] = "Young the Giant";
+		playlist[3] = "Washed Out";
+
+		var stringList = [];
+		stringList["A"] = "One For The Team";
+		stringList["B"] = "The Joy Formidable";
+		stringList["C"] = "Young the Giant";
+		stringList["D"] = "Washed Out";
+
+		// while loop
+		//var i = 0;
+		//while (i < playlist.length) {
+		//	addLog("Now Playing: " + playlist[i]);
+
+		//	i++;
+		//}
+
+		// do-while loop
+		//var someResult = false;
+		//do {
+		//	addLog("Will print AT LEAST once");
+		//} while (someResult);
+
+		// for loop
+		//for (var i = 0; i < playlist.length; i++) {
+		//	addLog(playlist[i]);
+		//}
+
+		// for .. in loop
+		for (i in stringList) {
+			addLog(stringList[i]);
+		}
+	</script>
+</head>
+<body>
+
+</body>
+</html>

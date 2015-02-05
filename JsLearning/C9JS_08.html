@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>JavaScript Chapter 8 - Arrays</title>
+	<script type="text/javascript">
+		function addLog(message) {
+			document.write(message + "<br />");
+		}
+
+		function writeArray(array) {
+			for (var index in array) {
+				document.write(index + " = "+ array[index] + "<br />");
+			}
+		}
+
+		addLog("Arrays");
+
+		//var candidates = [];
+		//candidates[0] = "can0";
+		//candidates[1] = "can1";
+		//candidates[2] = "can2";
+		//addLog(candidates);
+
+		var candidates = ["can0", "can1", 1, 2, 3];
+		//addLog(candidates);
+
+		var flightDate = new Date("September 22, 2004");
+		var myValues = ["str", 456, flightDate];
+		//writeArray(myValues);
+
+		// Associative arrays
+		var caveList = [];
+		caveList["locke"] = 4;
+		caveList["Reyes"] = 8;
+		caveList["ford"] = 44;
+		writeArray(caveList);	
+		
+	</script>
+</head>
+<body>
+
+</body>
+</html>

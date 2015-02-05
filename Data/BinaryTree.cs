@@ -8,7 +8,6 @@ namespace Data
 		private readonly IComparer<T> _comparer;
 
 		public BinaryTreeNode<T> Root { get; private set; }
-		public int MaxDepth { get; private set; }
 		public int Count { get; private set; }
 
 		public BinaryTree()
@@ -26,7 +25,6 @@ namespace Data
 			if (Root == null)
 			{
 				Root = new BinaryTreeNode<T>(value);
-				MaxDepth = 1;
 			}
 			else
 			{
@@ -39,7 +37,6 @@ namespace Data
 		private void AddTo(BinaryTreeNode<T> root, T value)
 		{
 			var currentNode = root;
-			var currentDepth = 1;
 
 			do
 			{
@@ -48,9 +45,6 @@ namespace Data
 					if (currentNode.LeftNode == null)
 					{
 						currentNode.LeftNode = new BinaryTreeNode<T>(value);
-
-						if (currentDepth > MaxDepth)
-							MaxDepth = currentDepth;
 
 						return;
 					}
@@ -65,9 +59,6 @@ namespace Data
 					{
 						currentNode.RightNode = new BinaryTreeNode<T>(value);
 
-						if (currentDepth > MaxDepth)
-							MaxDepth = currentDepth;
-
 						return;
 					}
 					else
@@ -75,8 +66,6 @@ namespace Data
 						currentNode = currentNode.RightNode;
 					}
 				}
-
-				currentDepth++;
 			} while (true);
 		}
 
@@ -96,9 +85,78 @@ namespace Data
 			return false;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="value"></param>
+		/// <remarks>
+		/// Case 1: If the node being deleted has no right child, then the node's left child can be used as the replacement. 
+		/// The binary search tree property is maintained because we know that the deleted node's left subtree itself maintains the binary search tree property, 
+		/// and that the values in the left subtree are all less than or all greater than the deleted node's parent, 
+		/// depending on whether the deleted node is a left or right child. 
+		/// Therefore, replacing the deleted node with its left subtree will maintain the binary search tree property.
+		/// 
+		/// Case 2: If the deleted node's right child has no left child, then the deleted node's right child can replace the deleted node. 
+		/// The binary search tree property is maintained because the deleted node's right child is greater than all nodes in the deleted node's left subtree and is either greater than or less than the deleted node's parent, 
+		/// depending on whether the deleted node was a right or left child. Therefore, replacing the deleted node with its right child will maintain the binary search tree property.
+		/// 
+		/// Case 3: Finally, if the deleted node's right child does have a left child, then the deleted node needs to be replaced by the deleted node's right child's left-most descendant. 
+		/// That is, we replace the deleted node with the deleted node's right subtree's smallest value.
+		/// </remarks>
+		/// <returns></returns>
 		public bool Delete(T value)
 		{
-			throw new NotImplementedException();
+			BinaryTreeNode<T> currentNodeParent = null;
+			var currentNode = Root;
+			bool found = false;
+			
+			while (currentNode != null)
+			{
+				var compareVal = _comparer.Compare(value, currentNode.Value);
+				if (compareVal == 0)
+				{
+					found = true;
+					break;
+				}
+
+				currentNodeParent = currentNode;
+				currentNode = compareVal < 0 ? currentNode.LeftNode : currentNode.RightNode;
+			}
+
+			if (!found)
+				return false;
+
+			// Case 1
+			if (currentNode.RightNode == null)
+			{
+				// TODO 
+				if (currentNodeParent == null)
+				{
+					Root = currentNode.LeftNode;
+				}
+				else
+				{
+					currentNodeParent.LeftNode = currentNode.LeftNode;					
+				}
+				
+				return true;
+			}
+
+			// Case 2
+			if (currentNode.RightNode.LeftNode == null)
+			{
+				// TODO 
+				if (currentNodeParent == null)
+				{
+					Root = currentNode.RightNode;
+				}
+				else
+				{
+					currentNodeParent.RightNode = currentNode.RightNode;	
+				}
+			}
+
+			return true;
 		}
 
 		/// <summary>
@@ -163,7 +221,7 @@ namespace Data
 					if (current.RightNode != null)
 					{
 						current = current.RightNode;
-						continue;						
+						continue;
 					}
 				}
 
@@ -179,7 +237,7 @@ namespace Data
 					{
 						if (nextNodes.Count != 0)
 						{
-							current = nextNodes.Pop();							
+							current = nextNodes.Pop();
 							isReturn = true;
 						}
 						else
@@ -208,7 +266,7 @@ namespace Data
 			BinaryTreeNode<T> current = Root;
 			BinaryTreeNode<T> lastVisited = null;
 			var stack = new Stack<BinaryTreeNode<T>>();
-			
+
 			while (current != null)
 			{
 				if (lastVisited != null && current.LeftNode == lastVisited)
@@ -247,7 +305,7 @@ namespace Data
 					else
 					{
 						yield return current.Value;
-						
+
 						if (stack.Count == 0)
 						{
 							yield break;
@@ -258,7 +316,7 @@ namespace Data
 					}
 				}
 
-			}			
+			}
 		}
 
 		public IEnumerable<T> BreadthFirstTraversal()
